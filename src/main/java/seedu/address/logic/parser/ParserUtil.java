@@ -65,6 +65,11 @@ public class ParserUtil {
         return new Phone(trimmedPhone);
     }
 
+    /**
+     * Parses remark input and returns a Remark object
+     * @param remark String remark
+     * @return a Remark object
+     */
     public static Remark parseRemark(String remark) {
         requireNonNull(remark);
         return new Remark(remark);
