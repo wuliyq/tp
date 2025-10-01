@@ -150,7 +150,7 @@ public class EditCommand extends Command {
             setRemark(toCopy.remark);
         }
 
-        private void setRemark(Remark remark) {
+        public void setRemark(Remark remark) {
             this.remark = remark;
         }
 
