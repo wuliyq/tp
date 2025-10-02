@@ -69,3 +69,13 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Developer
 * Responsibilities: Data
+
+### Lu Haomeng
+
+<img src="images/fzfzfzz.png" width="200px">
+
+[[github](http://github.com/FZFZFZZ)]
+[[portfolio](team/haomeng.md)]
+
+* Role: Developer
+* Responsibilities: UI
