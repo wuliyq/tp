@@ -287,16 +287,38 @@ _{Explain here how the data archiving feature will be implemented}_
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                 | So that I can…​                                                        |
-|----------|--------------------------------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new user                                   | see usage instructions       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person             |                                                                        |
-| `* * *`  | user                                       | delete a person              | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name        | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name         | locate a person easily                                                 |
+| Priority | As a …​                                 | I want to …​                                                      | So that I can…​                                                     |
+|----------|--------------------------------------------|----------------------------------------------------------------------|------------------------------------------------------------------------|
+| `* * *`  | new user                                   | see usage instructions                                               | refer to instructions when I forget how to use the App                 |
+| `* * *`  | user                                       | add a new person                                                     |                                                                        |
+| `* * *`  | user                                       | delete a person                                                      | remove entries that I no longer need                                   |
+| `* * *`  | user                                       | find a person by name                                                | locate details of persons without having to go through the entire list |
+| `* *`    | user                                       | hide private contact details                                         | minimize chance of someone else seeing them by accident                |
+| `*`      | user with many persons in the address book | sort persons by name                                                 | locate a person easily                                                 |
+| `***`    | tutor                                      | open EduTrack                                                        | start managing my students and lessons quickly                         |
+| `***`    | tutor                                      | exit EduTrack                                                        | stop using it and free system resources                                |
+| `**`     | tutor                                      | minimize or switch EduTrack (background)                             | return later and continue exactly where I left off                     |
+| `**`     | tutor                                      | resume EduTrack from background                                      | continue entering or reviewing student data without losing progress    |
+| `*`      | tutor                                      | receive notifications while EduTrack is running in the background    | stay informed about upcoming lessons or reminders                      |
+| `***`    | tutor                                      | add a new student (CLI) with name, email, phone number, and subjects | quickly store my students’ details                                     |
+| `***`    | tutor                                      | delete a student record (CLI)                                        | remove students who no longer attend my lessons                        |
+| `*`      | tutor                                      | update a student’s information (CLI)                                 | correct or add new details like email or subject enrollment            |
+| `***`    | tutor                                      | view detailed student information (CLI)                              | see all contact info, enrolled subjects, and progress notes            |
+| `***`    | tutor                                      | view student list in compact format (CLI)                            | quickly browse all students without scrolling through long records     |
+| `***`    | tutor                                      | access help/usage guide (CLI)                                        | know all available commands and how to use them efficiently            |
+| `***`    | tutor                                      | search for a student by name or keyword (CLI)                        | quickly locate a student without going through the entire list         |
+| `*`      | tutor                                      | filter students starting with a given letter (CLI)                   | easily browse students alphabetically                                  |
+| `**`     | tutor                                      | assign students to groups (e.g., Year 1, Math, Physics) (CLI)        | organize students by class, subject, or other category                 |
+| `**`     | tutor                                      | filter and view students within one group (CLI)                      | quickly focus on a subset of students                                  |
+| `*`      | tutor                                      | delete all student records (CLI)                                     | clear the system before a new semester or year (confirmation required) |
+| `*`      | tutor                                      | export student data to CSV or JSON (CLI)                             | integrate with other tools or share student info with colleagues       |
+| `*`      | admin                                      | view usage logs / audit trail (CLI, identity confirmation)           | track changes made to student records for accountability               |
+| `*`      | admin                                      | back up all student data (CLI, identity confirmation)                | ensure student info is safe and can be restored if necessary           |
+| `*`      | admin                                      | restore student data from backup (CLI, identity confirmation)        | recover from accidental deletion or system failure                     |
+| `*`      | admin                                      | force terminate EduTrack (CLI, identity confirmation)                | reclaim resources or enforce system policies                           |
 
-*{More to be added}*
+
+[//]: # (*{More to be added}*)
 
 ### Use cases
 
