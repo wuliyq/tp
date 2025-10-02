@@ -40,22 +40,22 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer
 * Responsibilities: Data
 
-### Jean Doe
+### Tang Kit Meng Shearer
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/shearer1509.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/Shearer1509)]
+[[portfolio](team/shearer.md)]
 
 * Role: Developer
 * Responsibilities: Dev Ops + Threading
 
-### James Doe
+### Gong Yiqian
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/wuliyq.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/wuliyq)]
+[[portfolio](https://www.linkedin.com/in/yiqian-gong-7aa12231b)]
 
 * Role: Developer
 * Responsibilities: UI
@@ -69,3 +69,4 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Developer
 * Responsibilities: Data
+
