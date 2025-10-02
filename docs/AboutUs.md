@@ -59,3 +59,12 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Developer
 * Responsibilities: UI
+
+### Tristan Seow
+
+<img src="images/polyrhythmas.png" width="200px">
+
+[[github](http://github.com/polyrhythmas)]
+
+* Role: Developer
+* Responsibilities: Data
