@@ -58,4 +58,15 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[portfolio](https://www.linkedin.com/in/yiqian-gong-7aa12231b)]
 
 * Role: Developer
-* Responsibilities: Dev Ops
+* Responsibilities: UI
+
+### Tristan Seow
+
+<img src="images/polyrhythmas.png" width="200px">
+
+[[github](http://github.com/polyrhythmas)]
+[[portfolio](team/johndoe.md)]
+
+* Role: Developer
+* Responsibilities: Data
+
