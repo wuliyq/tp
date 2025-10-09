@@ -274,11 +274,14 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
+* has a need to manage a significant number of tutees
 * prefer desktop apps over other types
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
+* wants to stay organized by storing student details, lesson schedules, and progress notes in one fast, CLI-based system
+* wants to search for upcoming students in a particular appointment slot
+* wants to sort all students by timeslot, earlier first
 
 **Value proposition**: manage contacts faster than a typical mouse/GUI driven app
 
