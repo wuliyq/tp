@@ -13,7 +13,4 @@ public class CliSyntax {
     public static final Prefix PREFIX_TAG = new Prefix("t/");
     public static final Prefix PREFIX_TIMESLOT = new Prefix("ts/");
 
-    Prefix getTimeSlot() {
-        return PREFIX_TIMESLOT;
-    }
 }
