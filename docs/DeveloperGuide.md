@@ -306,24 +306,85 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User requests to list persons.
+2.  EduTrack shows a list of persons.
+3.  User requests to delete a specific person in the list.
+4.  EduTrack requests the user to confirm the deletion.
+5.  User confirms the deletion.
+6.  EduTrack deletes the person.
 
     Use case ends.
 
 **Extensions**
 
 * 2a. The list is empty.
+    * 2a1. EduTrack informs user that the contact list is empty.
 
-  Use case ends.
+      Use case ends.
 
 * 3a. The given index is invalid.
-
-    * 3a1. AddressBook shows an error message.
+    * 3a1. EduTrack shows an error message.
 
       Use case resumes at step 2.
+
+
+**Use case: Add a person**
+
+**MSS**
+
+1.  User requests to add a person.
+2.  EduTrack requests for contact details (name, phone number, email address, subject, appointment slot).
+3.  User enters the requested details.
+4.  EduTrack saves the contact to a local file.
+
+   Use case ends.
+
+**Extensions**
+
+* 3a. User leaves required fields blank.
+    * 3a1. System requests the missing fields.
+    * 3a2. User re-enters details.
+    Steps 3a1–3a2 repeat until all required details are valid.
+
+      Use case resumes at step 4.
+
+* 3b. User enters invalid data (e.g., wrong email format).
+
+    * 3b1. System shows an error message.
+
+      Use case resumes at step 2.
+
+* *a. At any time, User cancels the operation.
+    * *a1. System requests to confirm the cancellation.
+    * *a2. User confirms the cancellation
+    * *a3. System discards input and returns to idle state.
+
+      Use case ends.
+
+
+**Use case: Edit a person**
+
+**MSS**
+
+1.  User requests to list persons.
+2.  EduTrack shows a list of persons.
+3.  User requests to edit a contact at a given index.
+4.  User provides new details based on the supported fields for the contact.
+5.  EduTrack updates the contact with the new details.
+
+    Use case ends.
+
+**Extensions**
+
+* 3a. The given index is invalid.
+    * 3a1. EduTrack shows an error message.
+
+      Use case resumes at step 2.
+
+* 4a. New details are invalid (e.g., bad email format).
+    * 4a1. AddressBook shows an error message.
+
+      Use case resumes at step 4.
 
 *{More to be added}*
 
