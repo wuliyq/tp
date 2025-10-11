@@ -97,6 +97,18 @@ public class ParserUtil {
     }
 
     /**
+     * Skeleton
+     * @param timeSlot
+     * @return
+     * @throws ParseException
+     */
+    public static TimeSlot parseTimeSlot(String timeSlot) throws ParseException {
+        return new TimeSlot(timeSlot);
+    }
+
+
+
+    /**
      * Parses a {@code String tag} into a {@code Tag}.
      * Leading and trailing whitespaces will be trimmed.
      *

@@ -26,6 +26,7 @@ public class TimeSlot {
     public final LocalDate date;
     public final LocalTime startTime;
     public final LocalTime endTime;
+    public final String value;
 
     /**
      * Constructs a {@code TimeSlot}.
@@ -42,6 +43,7 @@ public class TimeSlot {
         String[] times = parts[1].split("-");
         this.startTime = LocalTime.parse(times[0], TIME_FORMATTER);
         this.endTime = LocalTime.parse(times[1], TIME_FORMATTER);
+        value = timeSlotString;
     }
 
     /**

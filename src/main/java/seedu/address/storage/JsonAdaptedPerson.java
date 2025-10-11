@@ -1,5 +1,6 @@
 package seedu.address.storage;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +39,7 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
-                             @JsonProperty("timeSlot") String timeSlot, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+                             @JsonProperty("timeslot") String timeSlot, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -57,7 +58,7 @@ class JsonAdaptedPerson {
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
-        timeSlot = source.getTimeSlot().toString();
+        timeSlot = source.getTimeSlot().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -101,6 +102,16 @@ class JsonAdaptedPerson {
         if (address == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
         }
+        if (timeSlot == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
+        }
+
+        if (!TimeSlot.isValidTimeSlot(timeSlot)) {
+            throw new IllegalValueException(TimeSlot.MESSAGE_CONSTRAINTS);
+        }
+
+        final TimeSlot modelTimeSlot = new TimeSlot(timeSlot);
+
         if (!Address.isValidAddress(address)) {
             throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
         }
