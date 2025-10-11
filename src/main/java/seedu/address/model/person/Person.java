@@ -1,47 +1,116 @@
-package seedu.address.model.person.timesheet;
+package seedu.address.model.person;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
-/** Map 本地周时间 <-> 15 分钟网格索引（[0, 672)），周从周一 00:00 开始。*/
-public final class WeekIndex {
-    public static final int MINUTES_PER_BIN = 15;
-    public static final int BINS_PER_DAY = (24 * 60) / MINUTES_PER_BIN; // 96
-    public static final int DAYS_PER_WEEK = 7;
-    public static final int BINS_PER_WEEK = BINS_PER_DAY * DAYS_PER_WEEK; // 672
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.tag.Tag;
 
-    private final LocalDate weekStartMonday; // 周一日期（含当日）
+/**
+ * Represents a Person in the address book.
+ * Guarantees: details are present and not null, field values are validated, immutable.
+ */
+public class Person {
 
-    public WeekIndex(LocalDate weekStartMonday) {
-        this.weekStartMonday = Objects.requireNonNull(weekStartMonday)
-                .with(java.time.DayOfWeek.MONDAY);
+    // Identity fields
+    private final Name name;
+    private final Phone phone;
+    private final Email email;
+
+    // Data fields
+    private final Address address;
+    private final Set<Tag> tags = new HashSet<>();
+
+    /**
+     * Every field must be present and not null.
+     */
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, tags);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.tags.addAll(tags);
     }
 
-    /** 周一 00:00（本地时间）。*/
-    public LocalDateTime startOfWeek() {
-        return LocalDateTime.of(weekStartMonday, LocalTime.MIDNIGHT);
+    public Name getName() {
+        return name;
     }
 
-    /** 将本地时间映射到网格索引 [0, 672)。超出本周范围将抛出异常。*/
-    public int toIndex(LocalDateTime time) {
-        long minutes = Duration.between(startOfWeek(), time).toMinutes();
-        long span = (long) BINS_PER_WEEK * MINUTES_PER_BIN;
-        if (minutes < 0 || minutes >= span) {
-            throw new IllegalArgumentException("Time outside this week grid: " + time);
+    public Phone getPhone() {
+        return phone;
+    }
+
+    public Email getEmail() {
+        return email;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    /**
+     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public Set<Tag> getTags() {
+        return Collections.unmodifiableSet(tags);
+    }
+
+    /**
+     * Returns true if both persons have the same name.
+     * This defines a weaker notion of equality between two persons.
+     */
+    public boolean isSamePerson(Person otherPerson) {
+        if (otherPerson == this) {
+            return true;
         }
-        return (int) (minutes / MINUTES_PER_BIN);
+
+        return otherPerson != null
+                && otherPerson.getName().equals(getName());
     }
 
-    /** 从索引还原为本地时间（该格开始时刻）。*/
-    public LocalDateTime toTime(int index) {
-        if (index < 0 || index >= BINS_PER_WEEK) {
-            throw new IllegalArgumentException("Index out of range: " + index);
+    /**
+     * Returns true if both persons have the same identity and data fields.
+     * This defines a stronger notion of equality between two persons.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
         }
-        return startOfWeek().plusMinutes((long) index * MINUTES_PER_BIN);
+
+        // instanceof handles nulls
+        if (!(other instanceof Person)) {
+            return false;
+        }
+
+        Person otherPerson = (Person) other;
+        return name.equals(otherPerson.name)
+                && phone.equals(otherPerson.phone)
+                && email.equals(otherPerson.email)
+                && address.equals(otherPerson.address)
+                && tags.equals(otherPerson.tags);
     }
 
-    public LocalDate getWeekStartMonday() { return weekStartMonday; }
+    @Override
+    public int hashCode() {
+        // use this method for custom fields hashing instead of implementing your own
+        return Objects.hash(name, phone, email, address, tags);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("name", name)
+                .add("phone", phone)
+                .add("email", email)
+                .add("address", address)
+                .add("tags", tags)
+                .toString();
+    }
+
 }
