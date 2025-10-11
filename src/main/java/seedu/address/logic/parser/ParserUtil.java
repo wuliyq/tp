@@ -9,7 +9,11 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.*;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Email;
+import seedu.address.model.person.Name;
+import seedu.address.model.person.Phone;
+import seedu.address.model.person.TimeSlot;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -129,5 +133,20 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a {@code String timeSlot} into a {@code TimeSlot}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code timeSlot} is invalid.
+     */
+    public static TimeSlot parseTimeSlot(String timeSlot) throws ParseException {
+        requireNonNull(timeSlot);
+        String trimmedTimeSlot = timeSlot.trim();
+        if (!TimeSlot.isValidTimeSlot(trimmedTimeSlot)) {
+            throw new ParseException(TimeSlot.MESSAGE_CONSTRAINTS);
+        }
+        return new TimeSlot(trimmedTimeSlot);
     }
 }
