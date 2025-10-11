@@ -6,26 +6,25 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 
-/** Map 本地周时间 <-> 15 分钟网格索引（[0, 672)），周从周一 00:00 开始。*/
+/** Map Week Start time <-> bit slot[0, 672)，A week starts from Monday 0:00。*/
 public final class WeekIndex {
     public static final int MINUTES_PER_BIN = 15;
     public static final int BINS_PER_DAY = (24 * 60) / MINUTES_PER_BIN; // 96
     public static final int DAYS_PER_WEEK = 7;
     public static final int BINS_PER_WEEK = BINS_PER_DAY * DAYS_PER_WEEK; // 672
 
-    private final LocalDate weekStartMonday; // 周一日期（含当日）
+    private final LocalDate weekStartMonday;
 
     public WeekIndex(LocalDate weekStartMonday) {
         this.weekStartMonday = Objects.requireNonNull(weekStartMonday)
                 .with(java.time.DayOfWeek.MONDAY);
     }
 
-    /** 周一 00:00（本地时间）。*/
     public LocalDateTime startOfWeek() {
         return LocalDateTime.of(weekStartMonday, LocalTime.MIDNIGHT);
     }
 
-    /** 将本地时间映射到网格索引 [0, 672)。超出本周范围将抛出异常。*/
+    /** Time to the bit slot [0, 672)。If time exceeds week limit of this WeekIndex, throw an error*/
     public int toIndex(LocalDateTime time) {
         long minutes = Duration.between(startOfWeek(), time).toMinutes();
         long span = (long) BINS_PER_WEEK * MINUTES_PER_BIN;
@@ -35,7 +34,6 @@ public final class WeekIndex {
         return (int) (minutes / MINUTES_PER_BIN);
     }
 
-    /** 从索引还原为本地时间（该格开始时刻）。*/
     public LocalDateTime toTime(int index) {
         if (index < 0 || index >= BINS_PER_WEEK) {
             throw new IllegalArgumentException("Index out of range: " + index);
@@ -45,3 +43,4 @@ public final class WeekIndex {
 
     public LocalDate getWeekStartMonday() { return weekStartMonday; }
 }
+
