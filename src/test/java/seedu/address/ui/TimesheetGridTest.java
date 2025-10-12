@@ -31,7 +31,6 @@ public class TimesheetGridTest {
         Platform.setImplicitExit(false);
     }
 
-
     @BeforeEach
     public void setUp() {
         WeekIndex weekIndex = new WeekIndex(LocalDate.of(2025, 10, 13)); // Monday
@@ -82,3 +81,4 @@ public class TimesheetGridTest {
         }
     }
 }
+
