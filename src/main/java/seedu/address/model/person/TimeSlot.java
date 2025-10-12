@@ -106,7 +106,8 @@ public class TimeSlot {
 
     @Override
     public String toString() {
-        return date.format(DATE_FORMATTER) + " " + startTime.format(TIME_FORMATTER) + "-" + endTime.format(TIME_FORMATTER);
+        return date.format(DATE_FORMATTER) + " " + startTime.format(TIME_FORMATTER)
+                + "-" + endTime.format(TIME_FORMATTER);
     }
 
     @Override

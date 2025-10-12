@@ -22,9 +22,9 @@ public class TimeslotStartTimeContainsKeywordsPredicate implements Predicate<Per
             return false;
         }
 
-        String dateString = person.getTimeSlot().getDate().toString();           // e.g. "2025-10-12"
+        String dateString = person.getTimeSlot().getDate().toString(); // e.g. "2025-10-12"
         String startTimeString = person.getTimeSlot().getStartTime().toString(); // e.g. "08:00"
-        String normalizedStart = startTimeString.replace(":", "");               // e.g. "0800"
+        String normalizedStart = startTimeString.replace(":", ""); // e.g. "0800"
 
         // Determine which keywords look like dates or times
         boolean hasDateKeyword = keywords.stream().anyMatch(k -> k.contains("-")); // crude but effective check

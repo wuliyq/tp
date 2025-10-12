@@ -27,7 +27,7 @@ public class SampleDataUtil {
                 new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"),
                     new TimeSlot("2025-10-12 1600-1800"), getTagSet("colleagues", "friends")),
             new Person(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
-                new Address("Blk 11 Ang Mo Kio Street 74, #11-04"),new TimeSlot("2025-10-12 1600-1800"),
+                new Address("Blk 11 Ang Mo Kio Street 74, #11-04"), new TimeSlot("2025-10-12 1600-1800"),
                 getTagSet("neighbours")),
             new Person(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
                 new Address("Blk 436 Serangoon Gardens Street 26, #16-43"),

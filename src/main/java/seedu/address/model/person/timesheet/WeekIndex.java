@@ -15,6 +15,10 @@ public final class WeekIndex {
 
     private final LocalDate weekStartMonday;
 
+    /**
+     * Returns a weekIndex given a localDate object
+     * @param weekStartMonday
+     */
     public WeekIndex(LocalDate weekStartMonday) {
         this.weekStartMonday = Objects.requireNonNull(weekStartMonday)
                 .with(java.time.DayOfWeek.MONDAY);
@@ -34,6 +38,11 @@ public final class WeekIndex {
         return (int) (minutes / MINUTES_PER_BIN);
     }
 
+    /**
+     * Returns a LocalDateTime object given an index
+     * @param index
+     * @return
+     */
     public LocalDateTime toTime(int index) {
         if (index < 0 || index >= BINS_PER_WEEK) {
             throw new IllegalArgumentException("Index out of range: " + index);
@@ -41,6 +50,8 @@ public final class WeekIndex {
         return startOfWeek().plusMinutes((long) index * MINUTES_PER_BIN);
     }
 
-    public LocalDate getWeekStartMonday() { return weekStartMonday; }
+    public LocalDate getWeekStartMonday() {
+        return weekStartMonday;
+    }
 }
 
