@@ -102,9 +102,9 @@ public class ParserUtil {
      * @return
      * @throws ParseException
      */
-    public static TimeSlot parseTimeSlot(String timeSlot) throws ParseException {
-        return new TimeSlot(timeSlot);
-    }
+    // public static TimeSlot parseTimeSlot(String timeSlot) throws ParseException {
+    //     return new TimeSlot(timeSlot);
+    // }
 
 
 

@@ -6,7 +6,7 @@ import java.util.Objects;
 
 /**
  * Represents one person's weekly availability timesheet.
- * The week is divided into fixed time slots (e.g. 15 minutes each),
+ * The week is divided into fixed time slots (e.g. 30 minutes each),
  * and availability is stored using a compact {@link AvailabilityMask}.
  *
  * This class is immutable in identity (person + week) but mutable in content,
