@@ -1,7 +1,7 @@
 package seedu.address.ui;
 
 import java.util.Comparator;
-// import java.time.LocalDate;
+import java.time.LocalDate;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -10,8 +10,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
-// import seedu.address.model.person.timesheet.PersonTimesheet;
-// import seedu.address.model.person.timesheet.WeekIndex;
+import seedu.address.model.person.timesheet.PersonTimesheet;
+import seedu.address.model.person.timesheet.WeekIndex;
 
 
 /**
@@ -60,14 +60,14 @@ public class PersonCard extends UiPart<Region> {
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
-        email.setText(person.getEmail().value);    
-        timeSlot.setText(person.getTimeSlot().value);   
+        email.setText(person.getEmail().value);
+        timeSlot.setText(person.getTimeSlot().value);
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        // PersonTimesheet timesheet = new PersonTimesheet("HFDSDFSDF", new WeekIndex(LocalDate.of(2025, 10, 13)));
-        // TimesheetGrid grid = new TimesheetGrid(timesheet);
-        // timesheetBox.getChildren().add(grid);
+        PersonTimesheet timesheet = new PersonTimesheet("HFDSDFSDF", new WeekIndex(LocalDate.of(2025, 10, 13)));
+        TimesheetGrid grid = new TimesheetGrid(timesheet);
+        timesheetBox.getChildren().add(grid);
 
     }
 }

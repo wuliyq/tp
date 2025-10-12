@@ -32,9 +32,9 @@
       <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
       <Label fx:id="email" styleClass="cell_small_label" text="\$email" />
       <Label fx:id="timeSlot" styleClass="cell_small_label" text="\$timeSlot" />
-      <!-- <HBox fx:id="cardPane" ...>
+      <HBox fx:id="cardPane" ...>
         <VBox fx:id="timesheetContainer"/>
-      </HBox> -->
+      </HBox>
     </VBox>
   </GridPane>
 </HBox>
