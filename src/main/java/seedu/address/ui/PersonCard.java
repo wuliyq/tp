@@ -1,13 +1,18 @@
 package seedu.address.ui;
 
 import java.util.Comparator;
+import java.time.LocalDate;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.timesheet.PersonTimesheet;
+import seedu.address.model.person.timesheet.WeekIndex;
+
 
 /**
  * An UI component that displays information of a {@code Person}.
@@ -40,6 +45,10 @@ public class PersonCard extends UiPart<Region> {
     private Label email;
     @FXML
     private FlowPane tags;
+    @FXML
+    private Label timeSlot;
+    @FXML
+    private VBox timesheetBox;
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
@@ -52,8 +61,13 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
+        timeSlot.setText(person.getTimeSlot().value);
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        PersonTimesheet timesheet = new PersonTimesheet("HFDSDFSDF", new WeekIndex(LocalDate.of(2025, 10, 13)));
+        TimesheetGrid grid = new TimesheetGrid(timesheet);
+        timesheetBox.getChildren().add(grid);
+
     }
 }

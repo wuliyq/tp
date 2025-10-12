@@ -8,10 +8,10 @@ import java.util.Objects;
 
 /** Map Week Start time <-> bit slot[0, 672)，A week starts from Monday 0:00。*/
 public final class WeekIndex {
-    public static final int MINUTES_PER_BIN = 15;
+    public static final int MINUTES_PER_BIN = 30;
     public static final int BINS_PER_DAY = (24 * 60) / MINUTES_PER_BIN; // 96
     public static final int DAYS_PER_WEEK = 7;
-    public static final int BINS_PER_WEEK = BINS_PER_DAY * DAYS_PER_WEEK; // 672
+    public static final int BINS_PER_WEEK = BINS_PER_DAY * DAYS_PER_WEEK; // 336
 
     private final LocalDate weekStartMonday;
 
@@ -24,7 +24,7 @@ public final class WeekIndex {
         return LocalDateTime.of(weekStartMonday, LocalTime.MIDNIGHT);
     }
 
-    /** Time to the bit slot [0, 672)。If time exceeds week limit of this WeekIndex, throw an error*/
+    /** Time to the bit slot [0, 336). If time exceeds week limit of this WeekIndex, throw an error*/
     public int toIndex(LocalDateTime time) {
         long minutes = Duration.between(startOfWeek(), time).toMinutes();
         long span = (long) BINS_PER_WEEK * MINUTES_PER_BIN;

@@ -120,7 +120,7 @@ class JsonAdaptedPerson {
         if (!TimeSlot.isValidTimeSlot(timeSlot)) {
             throw new IllegalValueException(TimeSlot.MESSAGE_CONSTRAINTS);
         }
-        final TimeSlot modelTimeSlot = new TimeSlot(timeSlot);
+        //final TimeSlot modelTimeSlot = new TimeSlot(timeSlot);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTimeSlot, modelTags);
