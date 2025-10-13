@@ -56,4 +56,8 @@ public class FindTimeslotCommand extends Command {
                 .add("predicate", predicate)
                 .toString();
     }
+
+    public TimeslotStartTimeContainsKeywordsPredicate getPredicate() {
+        return predicate;
+    }
 }
