@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -27,12 +28,12 @@ import seedu.address.model.person.timesheet.WeekIndex;
 public class TimesheetGridTest {
 
     @BeforeAll
-    static void initToolkit() throws InterruptedException {
-        // Initializes JavaFX toolkit (headless)
-        CountDownLatch latch = new CountDownLatch(1);
-        Platform.startup(latch::countDown);
-        latch.await(5, TimeUnit.SECONDS);
+    static void initToolkit() {
+        // Initializes JavaFX toolkit headlessly
+        new JFXPanel(); // initializes JavaFX
+        Platform.setImplicitExit(false);
     }
+
 
     @Test
     public void constructor_validInput_createsGridProperly() throws Exception {
