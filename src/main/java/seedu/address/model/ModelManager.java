@@ -12,10 +12,10 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Person;
-import seedu.address.storage.StorageManager;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.Storage;
+import seedu.address.storage.StorageManager;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -31,8 +31,7 @@ public class ModelManager implements Model {
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs, 
-    Storage storage) {
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs, Storage storage) {
         requireAllNonNull(addressBook, userPrefs);
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
@@ -42,10 +41,25 @@ public class ModelManager implements Model {
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         this.storage = storage;
         if (storage instanceof StorageManager) {
-            ((StorageManager) storage).loadExistingSlots(addressBook);
+            storage.loadExistingSlots(addressBook);
         }
     }
 
+    /**
+     * constrctor for backwards compatability
+     * @param addressBook
+     * @param userPrefs
+     */
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs) {
+        this(addressBook, userPrefs, new StorageManager(
+                new JsonAddressBookStorage(Path.of("data", "addressbook.json")),
+                new JsonUserPrefsStorage(Path.of("data", "userprefs.json"))
+        ));
+    }
+
+    /**
+     * Empty constrctor for modelManager
+     */
     public ModelManager() {
         this(new AddressBook(), new UserPrefs(), new StorageManager(
             new JsonAddressBookStorage(Path.of("data", "addressbook.json")),
@@ -57,8 +71,6 @@ public class ModelManager implements Model {
     public Storage getStorage() {
         return storage;
     }
-    
-    //=========== UserPrefs ==================================================================================
 
     @Override
     public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {

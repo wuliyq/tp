@@ -76,9 +76,8 @@ public class StorageManager implements Storage {
     public void saveAddressBook(ReadOnlyAddressBook addressBook, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
         addressBookStorage.saveAddressBook(addressBook, filePath);
-    } 
+    }
 
-    // ================ TimeSlot methods ==============================
     @Override
     public boolean addSlot(TimeSlot slot) {
         for (TimeSlot existing : timeSlots) {
@@ -93,7 +92,6 @@ public class StorageManager implements Storage {
     @Override
     public void loadExistingSlots(ReadOnlyAddressBook addressBook) {
         timeSlots.clear();
-        addressBook.getPersonList().forEach(person -> 
-            timeSlots.add(person.getTimeSlot()));
+        addressBook.getPersonList().forEach(person -> timeSlots.add(person.getTimeSlot()));
     }
 }

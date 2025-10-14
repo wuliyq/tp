@@ -104,12 +104,17 @@ public class TimeSlot implements Comparable<TimeSlot> {
         return endTime;
     }
 
+    /**
+     * Checks for overlapping timeslots
+     * @param other
+     * @return
+     */
     public boolean overlaps(TimeSlot other) {
         if (!this.date.equals(other.date)) {
             return false; // Different dates cannot overlap
         }
         return !(this.endTime.isBefore(other.startTime) || this.startTime.isAfter(other.endTime));
-    }  
+    }
 
     @Override
     public String toString() {
