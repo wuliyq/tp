@@ -3,6 +3,7 @@ package seedu.address.storage;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
+import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -10,6 +11,7 @@ import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.TimeSlot;
 
 /**
  * Manages storage of AddressBook data in local storage.
@@ -17,6 +19,7 @@ import seedu.address.model.UserPrefs;
 public class StorageManager implements Storage {
 
     private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
+    private final TreeSet<TimeSlot> timeSlots = new TreeSet<>();
     private AddressBookStorage addressBookStorage;
     private UserPrefsStorage userPrefsStorage;
 
@@ -73,6 +76,24 @@ public class StorageManager implements Storage {
     public void saveAddressBook(ReadOnlyAddressBook addressBook, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
         addressBookStorage.saveAddressBook(addressBook, filePath);
+    } 
+
+    // ================ TimeSlot methods ==============================
+    @Override
+    public boolean addSlot(TimeSlot slot) {
+        for (TimeSlot existing : timeSlots) {
+            if (existing.overlaps(slot)) {
+                return false;
+            }
+        }
+        timeSlots.add(slot);
+        return true;
     }
 
+    @Override
+    public void loadExistingSlots(ReadOnlyAddressBook addressBook) {
+        timeSlots.clear();
+        addressBook.getPersonList().forEach(person -> 
+            timeSlots.add(person.getTimeSlot()));
+    }
 }

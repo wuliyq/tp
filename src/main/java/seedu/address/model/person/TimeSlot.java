@@ -13,7 +13,7 @@ import java.time.format.DateTimeParseException;
  * Represents a Person's lesson time slot in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidTimeSlot(String)}
  */
-public class TimeSlot {
+public class TimeSlot implements Comparable<TimeSlot> {
 
     public static final String MESSAGE_CONSTRAINTS =
             "TimeSlot should be in the format YYYY-MM-DD HHMM-HHMM, "
@@ -104,6 +104,13 @@ public class TimeSlot {
         return endTime;
     }
 
+    public boolean overlaps(TimeSlot other) {
+        if (!this.date.equals(other.date)) {
+            return false; // Different dates cannot overlap
+        }
+        return !(this.endTime.isBefore(other.startTime) || this.startTime.isAfter(other.endTime));
+    }  
+
     @Override
     public String toString() {
         return date.format(DATE_FORMATTER) + " " + startTime.format(TIME_FORMATTER)
@@ -124,6 +131,17 @@ public class TimeSlot {
         return date.equals(otherSlot.date)
                 && startTime.equals(otherSlot.startTime)
                 && endTime.equals(otherSlot.endTime);
+    }
+
+    @Override
+    public int compareTo(TimeSlot other) {
+        if (!this.date.equals(other.date)) {
+            return this.date.compareTo(other.date);
+        }
+        if (!this.startTime.equals(other.startTime)) {
+            return this.startTime.compareTo(other.startTime);
+        }
+        return this.endTime.compareTo(other.endTime);
     }
 
     @Override

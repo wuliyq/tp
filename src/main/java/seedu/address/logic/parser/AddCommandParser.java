@@ -50,7 +50,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         //TimeSlot timeSlot = ParserUtil.parseTimeSlot("timeSlot");
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
         TimeSlot timeSlot = ParserUtil.parseTimeSlot(argMultimap.getValue(PREFIX_TIMESLOT).get());
-
+        
         Person person = new Person(name, phone, email, address, timeSlot, tagList);
 
         return new AddCommand(person);

@@ -60,6 +60,10 @@ public class AddCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
+        if (!(model.getStorage().addSlot(toAdd.getTimeSlot()))) {
+            throw new CommandException(Messages.MESSAGE_TIMESLOT_CONFLICT);
+        }
+
         model.addPerson(toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
     }
