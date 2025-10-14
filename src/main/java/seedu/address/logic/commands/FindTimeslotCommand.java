@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.TimeslotStartTimeContainsKeywordsPredicate;
 
 /**
@@ -56,5 +55,9 @@ public class FindTimeslotCommand extends Command {
         return new ToStringBuilder(this)
                 .add("predicate", predicate)
                 .toString();
+    }
+
+    public TimeslotStartTimeContainsKeywordsPredicate getPredicate() {
+        return predicate;
     }
 }

@@ -1,14 +1,14 @@
 package seedu.address.ui;
 
-import java.util.Comparator;
 import java.time.LocalDate;
+import java.util.Comparator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.timesheet.PersonTimesheet;
 import seedu.address.model.person.timesheet.WeekIndex;
