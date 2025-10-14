@@ -15,7 +15,7 @@ import java.util.BitSet;
 public final class AvailabilityMask {
 
     private final BitSet bits; // bit 1 = available
-    private final int size;    // total number of time slots (e.g. 672 for 15-minute bins)
+    private final int size; // total number of time slots (e.g. 672 for 15-minute bins)
 
     /**
      * Creates an empty availability mask (all values default to false/unavailable).

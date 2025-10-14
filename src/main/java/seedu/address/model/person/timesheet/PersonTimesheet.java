@@ -14,8 +14,8 @@ import java.util.Objects;
  */
 public final class PersonTimesheet {
 
-    private final String personId;       // Reference to a Person. Later need to add in unique hashcode for each person
-    private final WeekIndex weekIndex;   // Identifies which week this timesheet belongs to
+    private final String personId; // Reference to a Person. Later need to add in unique hashcode for each person
+    private final WeekIndex weekIndex; // Identifies which week this timesheet belongs to
     private final AvailabilityMask mask; // 1-bit availability grid for the week
 
     /**
