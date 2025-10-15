@@ -417,7 +417,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2.  Should be able to hold up to 1000 contacts without a noticeable sluggishness in performance for typical usage.
-3.  Searching for a student or appointment slot should return results in under 1.0s.
+3.  Searching for a student or appointment slot should return results in under 1.6s.
 4.  Should load interface within 2 seconds of launch.
 5.  Audit logs of tutors and admins should be maintained for at least 1 year.
 
