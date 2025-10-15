@@ -9,7 +9,7 @@ AddressBook - Level 3 is a desktop address book application used for teaching So
 
 Given below are my contributions to the project.
 
-* **New Feature**: Added the ability to undo/redo previous commands.
+* **New Feature**: Added the ability to search for persons by timeslot.
     * What it does: Allows users to list all persons who have a matching time slot. When the user inputs a specific date and time range, the command filters and displays only those persons whose stored time slot corresponds exactly to the specified time period.
     * Justification: This feature improves the product’s usability by enabling users to quickly identify who is available or scheduled during a particular time. It eliminates the need to manually check each person’s entry and supports efficient coordination and planning.
     * Highlights: This enhancement involved extending the existing command system to handle new parameters (date and time ranges) and required modifications to the Model and Predicate components to support time-based filtering. Careful consideration was given to parsing, validation, and comparison of time formats to ensure consistent and accurate results. The implementation also integrates smoothly with the existing find command structure for scalability and future extensibility.
