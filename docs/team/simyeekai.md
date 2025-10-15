@@ -10,10 +10,10 @@ AddressBook - Level 3 is a desktop address book application used for teaching So
 Given below are my contributions to the project.
 
 * **New Feature**: Added the ability to undo/redo previous commands.
-    * What it does: allows the user to undo all previous commands one at a time. Preceding undo commands can be reversed by using the redo command.
-    * Justification: This feature improves the product significantly because a user can make mistakes in commands and the app should provide a convenient way to rectify them.
-    * Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives. The implementation too was challenging as it required changes to existing commands.
-    * Credits: *{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}*
+    * What it does: Allows users to list all persons who have a matching time slot. When the user inputs a specific date and time range, the command filters and displays only those persons whose stored time slot corresponds exactly to the specified time period.
+    * Justification: This feature improves the product’s usability by enabling users to quickly identify who is available or scheduled during a particular time. It eliminates the need to manually check each person’s entry and supports efficient coordination and planning.
+    * Highlights: This enhancement involved extending the existing command system to handle new parameters (date and time ranges) and required modifications to the Model and Predicate components to support time-based filtering. Careful consideration was given to parsing, validation, and comparison of time formats to ensure consistent and accurate results. The implementation also integrates smoothly with the existing find command structure for scalability and future extensibility.
+    * Credits: The idea and implementation are original. Standard Java date/time parsing (java.time.LocalDateTime) and comparison utilities were used for handling time slot matching.
 
 * **New Feature**: Added a history command that allows the user to navigate to previous commands using up/down keys.
 
