@@ -1,0 +1,8 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": false
+    },
+    "java.saveActions.organizeImports": false,
+    "editor.formatOnSave": false,
+    "java.saveActions.cleanup": false
+}
