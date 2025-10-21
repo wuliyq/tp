@@ -15,7 +15,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.FilterTimeslotCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.TimeslotRangePredicate;
 
 public class FilterTimeslotCommandParserTest {

@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.time.LocalDate;
@@ -72,20 +70,6 @@ public class FilterTimeslotCommandTest {
     // for this test to be more meaningful.
     @Test
     public void execute_matchingKeywords_personFound() {
-        // Let's assume ALICE has a timeslot of "2025-10-10 1000-1100"
-        // And you have updated TypicalPersons.ALICE with this timeslot
-
-        // String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
-        // TimeslotRangePredicate predicate = new TimeslotRangePredicate(
-        //         Optional.empty(), Optional.empty(),
-        //         Optional.of(LocalTime.of(9, 0)), Optional.of(LocalTime.of(10, 30)));
-        // FilterTimeslotCommand command = new FilterTimeslotCommand(predicate);
-        // expectedModel.updateFilteredPersonList(predicate);
-        // CommandResult expectedCommandResult = new CommandResult(expectedMessage);
-        // assertEquals(expectedCommandResult, command.execute(model));
-
-        // As a simpler test without modifying TypicalPersons:
-        // We just check that the predicate is passed to the model correctly.
         TimeslotRangePredicate predicate = new TimeslotRangePredicate(
                 Optional.empty(), Optional.empty(),
                 Optional.of(LocalTime.of(9, 0)), Optional.of(LocalTime.of(10, 30)));

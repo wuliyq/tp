@@ -94,5 +94,4 @@ public class TimeslotRangePredicateTest {
                 Optional.of(LocalTime.of(10, 30)), Optional.of(LocalTime.of(12, 0)));
         assertTrue(predicate.test(PERSON_IN_RANGE));
     }
-
 }
