@@ -37,7 +37,6 @@ public final class WeekIndex {
         }
         return (int) (minutes / MINUTES_PER_BIN);
     }
-    
     /**
      * Returns a LocalDateTime object given an index
      * @param index
