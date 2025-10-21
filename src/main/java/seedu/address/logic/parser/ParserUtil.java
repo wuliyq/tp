@@ -2,6 +2,10 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +26,9 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+
+    // Formatter for HHmm time
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HHmm");
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -136,5 +143,40 @@ public class ParserUtil {
             throw new ParseException(TimeSlot.MESSAGE_CONSTRAINTS);
         }
         return new TimeSlot(trimmedTimeSlot);
+    }
+
+    // --- NEW METHODS ---
+
+    /**
+     * Parses a {@code String date} into a {@code LocalDate}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code date} is invalid.
+     */
+    public static LocalDate parseDate(String date) throws ParseException {
+        requireNonNull(date);
+        String trimmedDate = date.trim();
+        try {
+            return LocalDate.parse(trimmedDate, DateTimeFormatter.ISO_LOCAL_DATE);
+        } catch (DateTimeParseException e) {
+            throw new ParseException("Date should be in YYYY-MM-DD format.");
+        }
+    }
+
+    /**
+     * Parses a {@code String time} into a {@code LocalTime}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code time} is invalid.
+     */
+    public static LocalTime parseTime(String time) throws ParseException {
+        requireNonNull(time);
+        String trimmedTime = time.trim();
+        try {
+            // Use the same formatter as your TimeSlot class
+            return LocalTime.parse(trimmedTime, TIME_FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new ParseException("Time should be in HHMM format.");
+        }
     }
 }

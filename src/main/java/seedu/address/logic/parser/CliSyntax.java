@@ -13,4 +13,8 @@ public class CliSyntax {
     public static final Prefix PREFIX_TAG = new Prefix("t/");
     public static final Prefix PREFIX_TIMESLOT = new Prefix("ts/");
 
+    public static final Prefix PREFIX_START_DATE = new Prefix("sd/");
+    public static final Prefix PREFIX_END_DATE = new Prefix("ed/");
+    public static final Prefix PREFIX_START_TIME = new Prefix("st/");
+    public static final Prefix PREFIX_END_TIME = new Prefix("et/");
 }

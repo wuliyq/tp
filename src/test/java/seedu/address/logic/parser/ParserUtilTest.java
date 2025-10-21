@@ -6,6 +6,8 @@ import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -18,6 +20,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.TimeSlot;
 import seedu.address.model.tag.Tag;
 
 public class ParserUtilTest {
@@ -26,6 +29,9 @@ public class ParserUtilTest {
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
+    private static final String INVALID_TIMESLOT = "2025-10-10 1000-0900"; // Start after end
+    private static final String INVALID_DATE = "2025/10/20";
+    private static final String INVALID_TIME = "9:00";
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
@@ -33,6 +39,9 @@ public class ParserUtilTest {
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
+    private static final String VALID_TIMESLOT = "2025-10-10 0900-1100";
+    private static final String VALID_DATE = "2025-10-20";
+    private static final String VALID_TIME = "0900";
 
     private static final String WHITESPACE = " \t\r\n";
 
@@ -192,5 +201,83 @@ public class ParserUtilTest {
         Set<Tag> expectedTagSet = new HashSet<Tag>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
 
         assertEquals(expectedTagSet, actualTagSet);
+    }
+
+    @Test
+    public void parseTimeSlot_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseTimeSlot(null));
+    }
+
+    @Test
+    public void parseTimeSlot_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseTimeSlot(INVALID_TIMESLOT));
+    }
+
+    @Test
+    public void parseTimeSlot_validValue_returnsTimeSlot() throws Exception {
+        TimeSlot expectedTimeSlot = new TimeSlot(VALID_TIMESLOT);
+        assertEquals(expectedTimeSlot, ParserUtil.parseTimeSlot(VALID_TIMESLOT));
+    }
+
+    @Test
+    public void parseTimeSlot_validValueWithWhitespace_returnsTrimmedTimeSlot() throws Exception {
+        String timeSlotWithWhitespace = WHITESPACE + VALID_TIMESLOT + WHITESPACE;
+        TimeSlot expectedTimeSlot = new TimeSlot(VALID_TIMESLOT);
+        assertEquals(expectedTimeSlot, ParserUtil.parseTimeSlot(timeSlotWithWhitespace));
+    }
+
+    @Test
+    public void parseDate_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseDate(null));
+    }
+
+    @Test
+    public void parseDate_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseDate(INVALID_DATE)); // Wrong format
+        assertThrows(ParseException.class, () -> ParserUtil.parseDate("2025-13-01")); // Invalid month
+        assertThrows(ParseException.class, () -> ParserUtil.parseDate("2025-02-30")); // Invalid day
+        assertThrows(ParseException.class, () -> ParserUtil.parseDate("not a date"));
+    }
+
+    @Test
+    public void parseDate_validValue_returnsDate() throws Exception {
+        LocalDate expectedDate = LocalDate.of(2025, 10, 20);
+        assertEquals(expectedDate, ParserUtil.parseDate(VALID_DATE));
+    }
+
+    @Test
+    public void parseDate_validValueWithWhitespace_returnsTrimmedDate() throws Exception {
+        String dateWithWhitespace = WHITESPACE + VALID_DATE + WHITESPACE;
+        LocalDate expectedDate = LocalDate.of(2025, 10, 20);
+        assertEquals(expectedDate, ParserUtil.parseDate(dateWithWhitespace));
+    }
+
+    @Test
+    public void parseTime_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseTime(null));
+    }
+
+    @Test
+    public void parseTime_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseTime(INVALID_TIME)); // Wrong format
+        assertThrows(ParseException.class, () -> ParserUtil.parseTime("2700")); // Invalid hour
+        assertThrows(ParseException.class, () -> ParserUtil.parseTime("1260")); // Invalid minute
+        assertThrows(ParseException.class, () -> ParserUtil.parseTime("not a time"));
+    }
+
+    @Test
+    public void parseTime_validValue_returnsTime() throws Exception {
+        LocalTime expectedTime = LocalTime.of(9, 0);
+        assertEquals(expectedTime, ParserUtil.parseTime(VALID_TIME));
+
+        LocalTime expectedTime2 = LocalTime.of(23, 59);
+        assertEquals(expectedTime2, ParserUtil.parseTime("2359"));
+    }
+
+    @Test
+    public void parseTime_validValueWithWhitespace_returnsTrimmedTime() throws Exception {
+        String timeWithWhitespace = WHITESPACE + VALID_TIME + WHITESPACE;
+        LocalTime expectedTime = LocalTime.of(9, 0);
+        assertEquals(expectedTime, ParserUtil.parseTime(timeWithWhitespace));
     }
 }
