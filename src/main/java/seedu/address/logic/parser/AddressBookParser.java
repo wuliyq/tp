@@ -14,6 +14,7 @@ import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
+import seedu.address.logic.commands.FilterTimeslotCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.FindTimeslotCommand;
 import seedu.address.logic.commands.HelpCommand;
@@ -71,6 +72,9 @@ public class AddressBookParser {
 
         case FindTimeslotCommand.COMMAND_WORD:
             return new FindTimeslotCommandParser().parse(arguments);
+
+        case FilterTimeslotCommand.COMMAND_WORD:
+            return new FilterTimeslotCommandParser().parse(arguments);
 
         case ListCommand.COMMAND_WORD:
             return new ListCommand();
