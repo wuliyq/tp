@@ -24,13 +24,13 @@ import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FilterTimeslotCommand;
 import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.FindTagCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
-import seedu.address.logic.commands.FindTagCommand;
-import seedu.address.model.person.TagContainsKeywordsPredicate;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.TagContainsKeywordsPredicate;
 import seedu.address.model.person.TimeslotRangePredicate;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
@@ -130,4 +130,5 @@ public class AddressBookParserTest {
                 FindTagCommand.COMMAND_WORD + " " + String.join(" ", keywords));
         assertEquals(new FindTagCommand(new TagContainsKeywordsPredicate(keywords)), command);
     }
+
 }
