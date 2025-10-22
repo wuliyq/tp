@@ -12,37 +12,136 @@ public class StringUtilTest {
 
     //---------------- Tests for isNonZeroUnsignedInteger --------------------------------------
 
+    // ============================
+    // Empty strings
+    // ============================
+
     @Test
-    public void isNonZeroUnsignedInteger() {
+    public void isNonZeroUnsignedInteger_emptyString_returnsFalse() {
+        assertFalse(StringUtil.isNonZeroUnsignedInteger(""));
+    }
 
-        // EP: empty strings
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("")); // Boundary value
+    @Test
+    public void isNonZeroUnsignedInteger_whitespaceOnly_returnsFalse() {
         assertFalse(StringUtil.isNonZeroUnsignedInteger("  "));
+    }
 
-        // EP: not a number
+    // ============================
+    // Not a number
+    // ============================
+
+    @Test
+    public void isNonZeroUnsignedInteger_singleLetter_returnsFalse() {
         assertFalse(StringUtil.isNonZeroUnsignedInteger("a"));
+    }
+
+    @Test
+    public void isNonZeroUnsignedInteger_multipleLetters_returnsFalse() {
         assertFalse(StringUtil.isNonZeroUnsignedInteger("aaa"));
+    }
 
-        // EP: zero
+    // ============================
+    // Zero and zero prefix
+    // ============================
+
+    @Test
+    public void isNonZeroUnsignedInteger_zero_returnsFalse() {
         assertFalse(StringUtil.isNonZeroUnsignedInteger("0"));
+    }
 
-        // EP: zero as prefix
+    @Test
+    public void isNonZeroUnsignedInteger_zeroPrefixedNumber_returnsTrue() {
         assertTrue(StringUtil.isNonZeroUnsignedInteger("01"));
+    }
 
-        // EP: signed numbers
+    // ============================
+    // Signed numbers
+    // ============================
+
+    @Test
+    public void isNonZeroUnsignedInteger_negativeNumber_returnsFalse() {
         assertFalse(StringUtil.isNonZeroUnsignedInteger("-1"));
+    }
+
+    @Test
+    public void isNonZeroUnsignedInteger_positiveSignNumber_returnsFalse() {
         assertFalse(StringUtil.isNonZeroUnsignedInteger("+1"));
+    }
 
-        // EP: numbers with white space
-        assertFalse(StringUtil.isNonZeroUnsignedInteger(" 10 ")); // Leading/trailing spaces
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("1 0")); // Spaces in the middle
+    // ============================
+    // Numbers with whitespace
+    // ============================
 
-        // EP: number larger than Integer.MAX_VALUE
+    @Test
+    public void isNonZeroUnsignedInteger_leadingAndTrailingSpaces_returnsFalse() {
+        assertFalse(StringUtil.isNonZeroUnsignedInteger(" 10 "));
+    }
+
+    @Test
+    public void isNonZeroUnsignedInteger_internalSpaces_returnsFalse() {
+        assertFalse(StringUtil.isNonZeroUnsignedInteger("1 0"));
+    }
+
+    // ============================
+    // Larger than Integer.MAX_VALUE
+    // ============================
+
+    @Test
+    public void isNonZeroUnsignedInteger_largerThanIntegerMaxValue_returnsFalse() {
         assertFalse(StringUtil.isNonZeroUnsignedInteger(Long.toString(Integer.MAX_VALUE + 1)));
+    }
 
-        // EP: valid numbers, should return true
-        assertTrue(StringUtil.isNonZeroUnsignedInteger("1")); // Boundary value
+    // ============================
+    // Valid numbers
+    // ============================
+
+    @Test
+    public void isNonZeroUnsignedInteger_one_returnsTrue() {
+        assertTrue(StringUtil.isNonZeroUnsignedInteger("1"));
+    }
+
+    @Test
+    public void isNonZeroUnsignedInteger_ten_returnsTrue() {
         assertTrue(StringUtil.isNonZeroUnsignedInteger("10"));
+    }
+
+    @Test
+    public void isNonZeroUnsignedInteger_leadingZeroStillValid_returnsTrue() {
+        // Leading zero allowed because Integer.parseInt("01") == 1
+        assertTrue(StringUtil.isNonZeroUnsignedInteger("01"));
+    }
+
+    @Test
+    public void isNonZeroUnsignedInteger_multipleLeadingZeros_returnsTrue() {
+        assertTrue(StringUtil.isNonZeroUnsignedInteger("00042"));
+    }
+
+    @Test
+    public void isNonZeroUnsignedInteger_extremeIntegerMaxValue_returnsTrue() {
+        assertTrue(StringUtil.isNonZeroUnsignedInteger(String.valueOf(Integer.MAX_VALUE)));
+    }
+
+    @Test
+    public void isNonZeroUnsignedInteger_overflowingNumber_returnsFalse() {
+        // Long value larger than Integer.MAX_VALUE
+        String tooLarge = String.valueOf((long) Integer.MAX_VALUE + 100);
+        assertFalse(StringUtil.isNonZeroUnsignedInteger(tooLarge));
+    }
+
+    @Test
+    public void isNonZeroUnsignedInteger_plusZero_returnsFalse() {
+        assertFalse(StringUtil.isNonZeroUnsignedInteger("+0"));
+    }
+
+    @Test
+    public void isNonZeroUnsignedInteger_nonNumericSymbol_returnsFalse() {
+        assertFalse(StringUtil.isNonZeroUnsignedInteger("#"));
+        assertFalse(StringUtil.isNonZeroUnsignedInteger("12#"));
+    }
+
+    @Test
+    public void isNonZeroUnsignedInteger_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> StringUtil.isNonZeroUnsignedInteger(null));
     }
 
 
@@ -102,6 +201,62 @@ public class StringUtilTest {
      */
 
     @Test
+    public void containsWordIgnoreCase_partialSubstringAtEnd_returnsTrue() {
+        // Checks partial match at the end of a word
+        assertTrue(StringUtil.containsWordIgnoreCase("java programming", "ming"));
+    }
+
+    @Test
+    public void containsWordIgnoreCase_partialSubstringAtStart_returnsTrue() {
+        // Checks partial match at the beginning of a word
+        assertTrue(StringUtil.containsWordIgnoreCase("java programming", "jav"));
+    }
+
+    @Test
+    public void containsWordIgnoreCase_sentenceWithSymbols_returnsTrue() {
+        // Sentence contains punctuation and symbols
+        assertTrue(StringUtil.containsWordIgnoreCase("error#404 not_found!", "404"));
+        assertTrue(StringUtil.containsWordIgnoreCase("email@domain.com is valid", "domain"));
+    }
+
+    @Test
+    public void containsWordIgnoreCase_wordWithSymbols_returnsTrue() {
+        // Word itself includes a symbol
+        assertTrue(StringUtil.containsWordIgnoreCase("abc@123 xyz", "@123"));
+    }
+
+    @Test
+    public void containsWordIgnoreCase_sentenceWithNewlines_returnsTrue() {
+        // Newline-separated words are valid because split("\\s+") handles them
+        assertTrue(StringUtil.containsWordIgnoreCase("abc\nxyz", "xyz"));
+        assertTrue(StringUtil.containsWordIgnoreCase("abc\nxyz", "x"));
+    }
+
+    @Test
+    public void containsWordIgnoreCase_sentenceWithTabs_returnsTrue() {
+        // Tab-separated words should still match
+        assertTrue(StringUtil.containsWordIgnoreCase("first\tsecond\tthird", "second"));
+    }
+
+    @Test
+    public void containsWordIgnoreCase_wordLongerThanSentenceWord_returnsFalse() {
+        // The word is longer than any token in the sentence
+        assertFalse(StringUtil.containsWordIgnoreCase("abc def", "abcdef"));
+    }
+
+    @Test
+    public void containsWordIgnoreCase_sentenceWithNumbers_returnsTrue() {
+        assertTrue(StringUtil.containsWordIgnoreCase("123 456", "45"));
+        assertTrue(StringUtil.containsWordIgnoreCase("A1B2C3", "b2"));
+    }
+
+    @Test
+    public void containsWordIgnoreCase_sentenceWithMixedDelimiters_returnsTrue() {
+        // Mixed whitespace types
+        assertTrue(StringUtil.containsWordIgnoreCase("apple\t banana  \ncherry", "ban"));
+    }
+
+    @Test
     public void containsWordIgnoreCase_validInputs_correctResult() {
 
         // Empty sentence
@@ -151,6 +306,21 @@ public class StringUtilTest {
     @Test
     public void getDetails_nullGiven_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> StringUtil.getDetails(null));
+    }
+
+    @Test
+    public void getDetails_runtimeException_containsClassNameAndMessage() {
+        RuntimeException e = new RuntimeException("runtime failed");
+        String result = StringUtil.getDetails(e);
+        assertTrue(result.contains("RuntimeException"));
+        assertTrue(result.contains("runtime failed"));
+    }
+
+    @Test
+    public void getDetails_exceptionWithoutMessage_stillContainsClassName() {
+        Exception e = new Exception();
+        String result = StringUtil.getDetails(e);
+        assertTrue(result.contains("Exception"));
     }
 
 }
