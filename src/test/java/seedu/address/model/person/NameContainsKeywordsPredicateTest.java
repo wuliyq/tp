@@ -68,10 +68,37 @@ public class NameContainsKeywordsPredicateTest {
         predicate = new NameContainsKeywordsPredicate(Arrays.asList("Carol"));
         assertFalse(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
 
+        // Non-matching keyword (keyword contains name)
+        predicate = new NameContainsKeywordsPredicate(Arrays.asList("Bobby"));
+        assertFalse(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+
+        // Non-matching keyword (typo in keyword)
+        predicate = new NameContainsKeywordsPredicate(Arrays.asList("Alise"));
+        assertFalse(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+
         // Keywords match phone, email and address, but does not match name
         predicate = new NameContainsKeywordsPredicate(Arrays.asList("12345", "alice@email.com", "Main", "Street"));
         assertFalse(predicate.test(new PersonBuilder().withName("Alice").withPhone("12345")
                 .withEmail("alice@email.com").withAddress("Main Street").build()));
+    }
+
+    @Test
+    public void test_nameContainsPartialKeywords_returnsTrue() {
+        // One keyword
+        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.singletonList("John"));
+        assertTrue(predicate.test(new PersonBuilder().withName("Johnathan Xavier").build()));
+
+        // Multiple keywords
+        predicate = new NameContainsKeywordsPredicate(Arrays.asList("John", "Bob"));
+        assertTrue(predicate.test(new PersonBuilder().withName("Johnathan Bobby").build()));
+
+        // Only one matching keyword
+        predicate = new NameContainsKeywordsPredicate(Arrays.asList("Bob", "Ben"));
+        assertTrue(predicate.test(new PersonBuilder().withName("Benny Golson").build()));
+
+        // Mixed-case keywords
+        predicate = new NameContainsKeywordsPredicate(Arrays.asList("jAcO", "pAsTO"));
+        assertTrue(predicate.test(new PersonBuilder().withName("jACo pasTorIuS").build()));
     }
 
     @Test

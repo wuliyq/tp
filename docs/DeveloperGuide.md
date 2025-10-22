@@ -274,11 +274,14 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
+* has a need to manage a significant number of tutees
 * prefer desktop apps over other types
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
+* wants to stay organized by storing student details, lesson schedules, and progress notes in one fast, CLI-based system
+* wants to search for upcoming students in a particular appointment slot
+* wants to sort all students by timeslot, earlier first
 
 **Value proposition**: manage contacts faster than a typical mouse/GUI driven app
 
@@ -413,15 +416,28 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+2.  Should be able to hold up to 1000 contacts without a noticeable sluggishness in performance for typical usage.
+3.  Searching for a student or appointment slot should return results in under 1.6s.
+4.  Should load interface within 2 seconds of launch.
+5.  Audit logs of tutors and admins should be maintained for at least 1 year.
 
 *{More to be added}*
 
 ### Glossary
 
+* **Admin**: Administrative figure in charge of the app data, access and usage
+* **Appointment slot**: The time frame in which the contact has booked an appointment
+* **CLI**: Command Line Interface
+* **GUI**: Graphical User Interface
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Student**: The student of a tutor
+* **Tutor**: A private hire tuition teacher
+* **User logs/Audit trail**: Recorded details of user usage such as the editing of student records
+
+
+
+
 
 --------------------------------------------------------------------------------------------------------------------
 
