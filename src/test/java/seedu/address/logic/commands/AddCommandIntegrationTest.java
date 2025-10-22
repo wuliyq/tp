@@ -2,16 +2,21 @@ package seedu.address.logic.commands;
 
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
+import seedu.address.storage.JsonAddressBookStorage;
+import seedu.address.storage.JsonUserPrefsStorage;
+import seedu.address.storage.StorageManager;
 import seedu.address.testutil.PersonBuilder;
 
 /**
@@ -23,14 +28,32 @@ public class AddCommandIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Path tempAddressBookPath = Path.of("data", "addressbook.json");
+        Path tempUserPrefsPath = Path.of("data", "userprefs.json");
+
+        JsonAddressBookStorage addressBookStorage = new JsonAddressBookStorage(tempAddressBookPath);
+        JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(tempUserPrefsPath);
+
+        StorageManager storageManager = new StorageManager(addressBookStorage, userPrefsStorage);
+
+        model = new ModelManager(new AddressBook(), new UserPrefs(), storageManager);
     }
+
+
 
     @Test
     public void execute_newPerson_success() {
-        Person validPerson = new PersonBuilder().build();
+        Path tempAddressBookPath = Path.of("data", "addressbook.json");
+        Path tempUserPrefsPath = Path.of("data", "userprefs.json");
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        JsonAddressBookStorage addressBookStorage = new JsonAddressBookStorage(tempAddressBookPath);
+        JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(tempUserPrefsPath);
+
+        StorageManager storageManager = new StorageManager(addressBookStorage, userPrefsStorage);
+
+        Model expectedModel = new ModelManager(new AddressBook(), new UserPrefs(), storageManager);
+
+        Person validPerson = new PersonBuilder().build();
         expectedModel.addPerson(validPerson);
 
         assertCommandSuccess(new AddCommand(validPerson), model,
@@ -40,9 +63,12 @@ public class AddCommandIntegrationTest {
 
     @Test
     public void execute_duplicatePerson_throwsCommandException() {
-        Person personInList = model.getAddressBook().getPersonList().get(0);
-        assertCommandFailure(new AddCommand(personInList), model,
+        Person validPerson = new PersonBuilder().build();
+        model.addPerson(validPerson); // add to model first
+
+        // Attempt to add the same person again
+        assertCommandFailure(new AddCommand(validPerson), model,
                 AddCommand.MESSAGE_DUPLICATE_PERSON);
     }
-
 }
+

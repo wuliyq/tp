@@ -1,11 +1,13 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.Person;
+import seedu.address.storage.Storage;
 
 /**
  * The API of the Model component.
@@ -84,4 +86,16 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    /**
+     * Sorts the filtered person list using the given {@code comparator}.
+     * @throws NullPointerException if {@code comparator} is null.
+     */
+
+    void sortFilteredPersonList(Comparator<Person> comparator);
+    /**
+     * Returns the StorageManager
+     * @return
+     */
+    Storage getStorage();
 }
