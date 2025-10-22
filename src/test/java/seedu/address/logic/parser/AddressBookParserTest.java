@@ -26,6 +26,8 @@ import seedu.address.logic.commands.FilterTimeslotCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.FindTagCommand;
+import seedu.address.model.person.TagContainsKeywordsPredicate;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
@@ -119,5 +121,13 @@ public class AddressBookParserTest {
 
         // Assert that the parser correctly creates the command
         assertEquals(expectedCommand, parser.parseCommand(commandString));
+    }
+
+    @Test
+    public void parseCommand_findtag() throws Exception {
+        List<String> keywords = Arrays.asList("friends", "owesMoney");
+        FindTagCommand command = (FindTagCommand) parser.parseCommand(
+                FindTagCommand.COMMAND_WORD + " " + String.join(" ", keywords));
+        assertEquals(new FindTagCommand(new TagContainsKeywordsPredicate(keywords)), command);
     }
 }
