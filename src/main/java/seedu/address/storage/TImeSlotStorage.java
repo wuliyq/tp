@@ -14,5 +14,12 @@ public interface TImeSlotStorage {
      */
     boolean addSlot(TimeSlot slot);
 
+    /**
+     * Removes a TimeSlot from the storage.
+     * Assumes the slot exists.
+     * @param slot
+     */
+    void removeSlot(TimeSlot slot);
+
     void loadExistingSlots(ReadOnlyAddressBook addressBook);
 }

@@ -15,6 +15,8 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.nio.file.Paths;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
@@ -25,6 +27,10 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
+import seedu.address.storage.JsonAddressBookStorage;
+import seedu.address.storage.JsonUserPrefsStorage;
+import seedu.address.storage.Storage;
+import seedu.address.storage.StorageManager;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 
@@ -33,19 +39,38 @@ import seedu.address.testutil.PersonBuilder;
  */
 public class EditCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Storage storage = new StorageManager(
+            new JsonAddressBookStorage(Paths.get("data", "dummy.json")),
+            new JsonUserPrefsStorage(Paths.get("data", "dummyprefs.json"))
+    );
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), storage);
 
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() {
-        Person editedPerson = new PersonBuilder().build();
+        // Note: This test now uses the fixed ModelManager.
+        // It edits ALICE (index 1) to be a new person.
+        Person personToEdit = model.getFilteredPersonList().get(0);
+        Person editedPerson = new PersonBuilder()
+                .withTimeSlot("2030-01-01 1000-1100") // Give a new, free timeslot
+                .build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
+        // 1. Create a *new, separate* storage for the expected model.
+        // This assumes you have 'Paths' and other storage classes imported.
+        // The paths can be anything, as long as it's a new instance.
+        Storage expectedStorage = new StorageManager(
+                new JsonAddressBookStorage(Paths.get("data", "dummy-expected.json")),
+                new JsonUserPrefsStorage(Paths.get("data", "dummyprefs-expected.json"))
+        );
 
+        // 2. Create expectedModel using the *new* storage
+        Model expectedModel = new ModelManager(
+                new AddressBook(model.getAddressBook()), new UserPrefs(), expectedStorage);
+        expectedModel.setPerson(personToEdit, editedPerson);
+        expectedModel.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
@@ -118,6 +143,24 @@ public class EditCommandTest {
                 new EditPersonDescriptorBuilder(personInList).build());
 
         assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_PERSON);
+    }
+
+    @Test
+    public void execute_timeslotConflict_failure() {
+        // Get person 1 (ALICE) and person 2 (BENSON)
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person conflictingPerson = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
+
+        // Try to edit ALICE to have BENSON's timeslot
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withTimeSlot(conflictingPerson.getTimeSlot().toString())
+                .build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
+
+        // Expect a command failure with the conflict message
+        // The message comes from the TimeSlotConflictException we created
+        assertCommandFailure(editCommand, model,
+                "The timeslot for " + personToEdit.getName() + " conflicts with an existing entry.");
     }
 
     @Test

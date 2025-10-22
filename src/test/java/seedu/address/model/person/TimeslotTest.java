@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.junit.jupiter.api.Test;
@@ -73,5 +74,60 @@ public class TimeslotTest {
     public void toString_validSlot_matchesExpectedFormat() {
         TimeSlot slot = new TimeSlot("2025-10-12 0800-0900");
         assertEquals("2025-10-12 0800-0900", slot.toString());
+    }
+
+    @Test
+    public void isPast_test() {
+        // Mock 'now' to be a fixed point in time for predictable tests
+        LocalDateTime now = LocalDateTime.of(2025, 10, 22, 16, 0); // 4:00 PM on Oct 22
+
+        // Case 1: Timeslot is fully in the past (yesterday)
+        TimeSlot pastSlot = new TimeSlot("2025-10-21 1400-1500");
+        assertTrue(pastSlot.isPast(now));
+
+        // Case 2: Timeslot is fully in the past (today)
+        TimeSlot pastTodaySlot = new TimeSlot("2025-10-22 1000-1100");
+        assertTrue(pastTodaySlot.isPast(now));
+
+        // Case 3: Timeslot is in progress (end time is in future)
+        TimeSlot inProgressSlot = new TimeSlot("2025-10-22 1500-1700");
+        assertFalse(inProgressSlot.isPast(now));
+
+        // Case 4: Timeslot is fully in the future (today)
+        TimeSlot futureTodaySlot = new TimeSlot("2025-10-22 1800-1900");
+        assertFalse(futureTodaySlot.isPast(now));
+
+        // Case 5: Timeslot is fully in the future (tomorrow)
+        TimeSlot futureSlot = new TimeSlot("2025-10-23 1000-1100");
+        assertFalse(futureSlot.isPast(now));
+
+        // Case 6: Timeslot ends exactly 'now'
+        TimeSlot edgeSlot = new TimeSlot("2025-10-22 1500-1600");
+        assertFalse(edgeSlot.isPast(now)); // .isBefore() is strict, so this is not "past"
+    }
+
+    @Test
+    public void getNextOccurrence_test() {
+        LocalDateTime now = LocalDateTime.of(2025, 10, 22, 16, 0); // 4:00 PM on Wed, Oct 22
+
+        // Case 1: Past slot (yesterday, Tue Oct 21)
+        TimeSlot pastSlot = new TimeSlot("2025-10-21 1000-1100");
+        TimeSlot expectedNext = new TimeSlot("2025-10-28 1000-1100"); // Next Tuesday
+        assertEquals(expectedNext, pastSlot.getNextOccurrence(now));
+
+        // Case 2: Past slot (today, Wed Oct 22 @ 3PM)
+        TimeSlot pastTodaySlot = new TimeSlot("2025-10-22 1500-1530");
+        TimeSlot expectedNextToday = new TimeSlot("2025-10-29 1500-1530"); // Next Wednesday
+        assertEquals(expectedNextToday, pastTodaySlot.getNextOccurrence(now));
+
+        // Case 3: Future slot (today, Wed Oct 22 @ 5PM)
+        TimeSlot futureTodaySlot = new TimeSlot("2025-10-22 1700-1800");
+        // Slot is in the future, so the "next" occurrence is itself
+        assertEquals(futureTodaySlot, futureTodaySlot.getNextOccurrence(now));
+
+        // Case 4: Future slot (tomorrow, Thu Oct 23)
+        TimeSlot futureSlot = new TimeSlot("2025-10-23 1000-1100");
+        // Slot is in the future, so the "next" occurrence is itself
+        assertEquals(futureSlot, futureSlot.getNextOccurrence(now));
     }
 }

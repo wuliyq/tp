@@ -28,6 +28,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.TimeSlot;
+import seedu.address.model.person.exceptions.TimeSlotConflictException;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -87,7 +88,11 @@ public class EditCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
-        model.setPerson(personToEdit, editedPerson);
+        try {
+            model.setPerson(personToEdit, editedPerson);
+        } catch (TimeSlotConflictException e) {
+            throw new CommandException(e.getMessage());
+        }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }

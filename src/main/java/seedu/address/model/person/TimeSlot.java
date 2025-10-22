@@ -5,6 +5,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -44,6 +45,22 @@ public class TimeSlot implements Comparable<TimeSlot> {
         this.startTime = LocalTime.parse(times[0], TIME_FORMATTER);
         this.endTime = LocalTime.parse(times[1], TIME_FORMATTER);
         value = timeSlotString;
+    }
+
+    /**
+     * Private constructor to create a new TimeSlot from its components.
+     * Used by getNextOccurrence.
+     */
+    private TimeSlot(LocalDate date, LocalTime startTime, LocalTime endTime) {
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
+
+        // Format the 'value' string to be consistent
+        this.value = date.format(DATE_FORMATTER) + " " + startTime.format(TIME_FORMATTER)
+                + "-" + endTime.format(TIME_FORMATTER);
+
+        // We can skip validation checks as we trust the internal method logic
     }
 
     /**
@@ -102,6 +119,35 @@ public class TimeSlot implements Comparable<TimeSlot> {
 
     public LocalTime getEndTime() {
         return endTime;
+    }
+
+    /**
+     * Checks if this timeslot's end time is before the given time.
+     */
+    public boolean isPast(LocalDateTime now) {
+        LocalDateTime endDateTime = LocalDateTime.of(this.date, this.endTime);
+        return endDateTime.isBefore(now);
+    }
+
+    /**
+     * Calculates the next recurring timeslot (weekly) after the given time.
+     */
+    public TimeSlot getNextOccurrence(LocalDateTime now) {
+        LocalDateTime currentStartDateTime = LocalDateTime.of(this.date, this.startTime);
+        Duration duration = Duration.between(this.startTime, this.endTime);
+
+        LocalDateTime newStartDateTime = currentStartDateTime;
+
+        // This loop fast-forwards the timeslot until it's in the future
+        while (newStartDateTime.isBefore(now)) {
+            newStartDateTime = newStartDateTime.plusWeeks(1);
+        }
+
+        LocalDate newDate = newStartDateTime.toLocalDate();
+        LocalTime newStartTime = newStartDateTime.toLocalTime();
+        LocalTime newEndTime = newStartDateTime.plus(duration).toLocalTime();
+
+        return new TimeSlot(newDate, newStartTime, newEndTime);
     }
 
     /**
