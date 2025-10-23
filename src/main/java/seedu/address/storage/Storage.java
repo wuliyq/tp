@@ -12,7 +12,7 @@ import seedu.address.model.UserPrefs;
 /**
  * API of the Storage component
  */
-public interface Storage extends AddressBookStorage, UserPrefsStorage, TImeSlotStorage {
+public interface Storage extends AddressBookStorage, UserPrefsStorage, TimeSlotStorage {
 
     @Override
     Optional<UserPrefs> readUserPrefs() throws DataLoadingException;
