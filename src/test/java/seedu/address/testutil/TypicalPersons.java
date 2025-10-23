@@ -31,22 +31,22 @@ public class TypicalPersons {
             .withTags("friends").build();
     public static final Person BENSON = new PersonBuilder().withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25")
-            .withEmail("johnd@example.com").withPhone("98765432").withTimeSlot("2025-10-12 1600-1800")
+            .withEmail("johnd@example.com").withPhone("98765432").withTimeSlot("2025-10-13 1000-1100")
             .withTags("owesMoney", "friends").build();
     public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
-            .withEmail("heinz@example.com").withAddress("wall street").withTimeSlot("2025-10-12 1600-1800").build();
+            .withEmail("heinz@example.com").withAddress("wall street").withTimeSlot("2025-10-14 1000-1100").build();
     public static final Person DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("87652533")
             .withEmail("cornelia@example.com").withAddress("10th street")
-            .withTimeSlot("2025-10-12 1600-1800").withTags("friends").build();
+            .withTimeSlot("2025-10-15 1000-1100").withTags("friends").build();
     public static final Person ELLE = new PersonBuilder().withName("Elle Meyer").withPhone("9482224")
             .withEmail("werner@example.com").withAddress("michegan ave")
-            .withTimeSlot("2025-10-12 1600-1800").build();
+            .withTimeSlot("2025-10-16 1000-1100").build();
     public static final Person FIONA = new PersonBuilder().withName("Fiona Kunz").withPhone("9482427")
             .withEmail("lydia@example.com").withAddress("little tokyo")
-            .withTimeSlot("2025-10-12 1600-1800").build();
+            .withTimeSlot("2025-10-17 1000-1100").build();
     public static final Person GEORGE = new PersonBuilder().withName("George Best").withPhone("9482442")
             .withEmail("anna@example.com").withAddress("4th street")
-            .withTimeSlot("2025-10-12 1600-1800").build();
+            .withTimeSlot("2025-10-18 1000-1100").build();
 
     // Manually added
     public static final Person HOON = new PersonBuilder().withName("Hoon Meier").withPhone("8482424")

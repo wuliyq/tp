@@ -12,22 +12,42 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.TimeSlotConflictException;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.testutil.AddressBookBuilder;
+import seedu.address.testutil.PersonBuilder;
 
 public class ModelManagerTest {
 
     private ModelManager modelManager = new ModelManager();
+    private Storage storage;
+    private AddressBook addressBook;
+    private UserPrefs userPrefs;
+
+    @BeforeEach // ADD THIS WHOLE METHOD
+    public void setUp() {
+        // We need a real storage manager for these tests
+        storage = new StorageManager(
+                new JsonAddressBookStorage(Paths.get("data", "dummy.json")),
+                new JsonUserPrefsStorage(Paths.get("data", "dummyprefs.json"))
+        );
+        addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).build();
+        userPrefs = new UserPrefs();
+        modelManager = new ModelManager(addressBook, userPrefs, storage);
+    }
 
     @Test
     public void constructor() {
+        modelManager = new ModelManager();
         assertEquals(new UserPrefs(), modelManager.getUserPrefs());
         assertEquals(new GuiSettings(), modelManager.getGuiSettings());
         assertEquals(new AddressBook(), new AddressBook(modelManager.getAddressBook()));
@@ -83,13 +103,65 @@ public class ModelManagerTest {
 
     @Test
     public void hasPerson_personNotInAddressBook_returnsFalse() {
-        assertFalse(modelManager.hasPerson(ALICE));
+        // ALICE and BENSON are in the setUp model
+        assertFalse(modelManager.hasPerson(new PersonBuilder().withName("Carl").build()));
     }
 
     @Test
     public void hasPerson_personInAddressBook_returnsTrue() {
-        modelManager.addPerson(ALICE);
+        // ALICE is added in setUp
         assertTrue(modelManager.hasPerson(ALICE));
+    }
+
+    @Test
+    public void deletePerson_personExists_removesPersonAndFreesSlot() {
+        // 1. ALICE exists and her slot is "taken"
+        assertTrue(modelManager.hasPerson(ALICE));
+
+        // 2. A new person with ALICE's slot would conflict
+        Person aliceClone = new PersonBuilder(ALICE).withName("Alice Clone").build();
+        // We test conflict by trying to add her slot to storage directly
+        // Note: We remove it first because loadExistingSlots added it
+        modelManager.getStorage().removeSlot(ALICE.getTimeSlot());
+        assertTrue(modelManager.getStorage().addSlot(ALICE.getTimeSlot())); // Slot is now taken
+        assertFalse(modelManager.getStorage().addSlot(aliceClone.getTimeSlot())); // Fails to add
+
+        // 3. Delete ALICE
+        modelManager.deletePerson(ALICE);
+        assertFalse(modelManager.hasPerson(ALICE));
+
+        // 4. ALICE's slot should now be free
+        // The storage.addSlot should now succeed
+        assertTrue(modelManager.getStorage().addSlot(aliceClone.getTimeSlot()));
+    }
+
+    @Test
+    public void setPerson_timeslotConflict_throwsTimeSlotConflictException() {
+        // BENSON's timeslot is already taken (by BENSON)
+        Person editedAlice = new PersonBuilder(ALICE)
+                .withTimeSlot(BENSON.getTimeSlot().toString())
+                .build();
+
+        // Try to edit ALICE to have BENSON's timeslot
+        assertThrows(TimeSlotConflictException.class, () -> modelManager.setPerson(ALICE, editedAlice));
+
+        // Ensure ALICE was not changed
+        assertEquals(ALICE, modelManager.getAddressBook().getPersonList().get(0));
+    }
+
+    @Test
+    public void setPerson_validTimeslotChange_success() {
+        String newSlotString = "2030-01-01 1000-1100";
+        Person editedAlice = new PersonBuilder(ALICE).withTimeSlot(newSlotString).build();
+
+        // 1. Edit ALICE to have a new, free timeslot
+        modelManager.setPerson(ALICE, editedAlice);
+        assertEquals(editedAlice, modelManager.getAddressBook().getPersonList().get(0));
+
+        // 2. Check that ALICE's *old* slot is now free
+        // We can do this by adding a new person with her old slot
+        Person personWithOldSlot = new PersonBuilder().withTimeSlot(ALICE.getTimeSlot().toString()).build();
+        assertTrue(modelManager.getStorage().addSlot(personWithOldSlot.getTimeSlot()));
     }
 
     @Test

@@ -90,6 +90,11 @@ public class StorageManager implements Storage {
     }
 
     @Override
+    public void removeSlot(TimeSlot slot) {
+        timeSlots.remove(slot);
+    }
+
+    @Override
     public void loadExistingSlots(ReadOnlyAddressBook addressBook) {
         timeSlots.clear();
         addressBook.getPersonList().forEach(person -> timeSlots.add(person.getTimeSlot()));

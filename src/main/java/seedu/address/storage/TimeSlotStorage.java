@@ -4,7 +4,7 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.TimeSlot;
 
 /**
- * TImeSlotStorage
+ * TimeSlotStorage
  */
 public interface TimeSlotStorage {
     /**
@@ -13,6 +13,13 @@ public interface TimeSlotStorage {
      * @return
      */
     boolean addSlot(TimeSlot slot);
+
+    /**
+     * Removes a TimeSlot from the storage.
+     * Assumes the slot exists.
+     * @param slot
+     */
+    void removeSlot(TimeSlot slot);
 
     void loadExistingSlots(ReadOnlyAddressBook addressBook);
 }
