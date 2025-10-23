@@ -6,7 +6,7 @@ import seedu.address.model.person.TimeSlot;
 /**
  * TImeSlotStorage
  */
-public interface TImeSlotStorage {
+public interface TimeSlotStorage {
     /**
      * Add a TimeSlot to the storage if it does not conflict with existing slots.
      * @param slot
