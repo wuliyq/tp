@@ -14,6 +14,7 @@ import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.TimeSlotConflictException;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.Storage;
@@ -114,6 +115,8 @@ public class ModelManager implements Model {
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
         this.addressBook.resetData(addressBook);
+        storage.loadExistingSlots(this.addressBook);
+        logger.info("Address book reset. Storage timeslots re-synced with address book.");
     }
 
     @Override
@@ -129,6 +132,7 @@ public class ModelManager implements Model {
 
     @Override
     public void deletePerson(Person target) {
+        storage.removeSlot(target.getTimeSlot());
         addressBook.removePerson(target);
     }
 
@@ -142,6 +146,23 @@ public class ModelManager implements Model {
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
 
+        // Check if timeslot is being changed
+        if (!target.getTimeSlot().equals(editedPerson.getTimeSlot())) {
+            // Timeslot has changed. Must check for conflicts.
+            // 1. Remove old slot
+            storage.removeSlot(target.getTimeSlot());
+
+            // 2. Try to add new slot
+            if (!storage.addSlot(editedPerson.getTimeSlot())) {
+                // Conflict! Abort.
+                // Add the old slot back to restore state.
+                storage.addSlot(target.getTimeSlot());
+                throw new TimeSlotConflictException(
+                        "The timeslot for " + editedPerson.getName() + " conflicts with an existing entry.");
+            }
+        }
+
+        // If we are here, either timeslot didn't change, or it did and it was successful.
         addressBook.setPerson(target, editedPerson);
     }
 
@@ -181,7 +202,7 @@ public class ModelManager implements Model {
         ModelManager otherModelManager = (ModelManager) other;
         return addressBook.equals(otherModelManager.addressBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredPersons.equals(otherModelManager.filteredPersons);
+                && sortedPersons.equals(otherModelManager.sortedPersons);
     }
 
 }

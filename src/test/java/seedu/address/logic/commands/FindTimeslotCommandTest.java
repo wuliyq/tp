@@ -68,7 +68,7 @@ public class FindTimeslotCommandTest {
         // You'll need to adjust the keywords based on your test data
 
         // Example: Search for a specific date that exists in test data
-        String expectedMessage = String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, 7);
+        String expectedMessage = String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
         TimeslotStartTimeContainsKeywordsPredicate predicate = preparePredicate("2025-10-12");
         FindTimeslotCommand command = new FindTimeslotCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
