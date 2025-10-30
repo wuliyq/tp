@@ -530,6 +530,41 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Use case resumes at step 4.
 
 
+**Use case: Clear all entries**
+
+**MSS**
+
+1. User enters the clear command. 
+2. EduTrack deletes all contacts and updates data file. 
+3. EduTrack displays success message `Address book has been cleared!`.
+
+**Use case: Find a person by name**
+
+**MSS**
+
+1. User enters the find command. 
+2. EduTrack searches for all contacts whose names contain any of the keywords (case-insensitive, substring match). 
+3. EduTrack displays the list of matching contacts.
+
+**Extensions**
+
+* 2a. User enters keywords that do not match with any contact in the list.
+    * 2a1. EduTrack shows an error message `0 persons listed!`.
+
+
+**Use case: Find a person by tag**
+
+**MSS**
+
+1. User enters the findtag command. 
+2. EduTrack searches for all contacts with at least one matching tag. 
+3. EduTrack displays the list of matching contacts.
+
+**Extensions**
+
+* 2a. User enters tags that do not match with any contact in the list.
+    * 2a1. EduTrack shows an error message `0 persons listed! with tag(s): [friends]`.
+
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -538,7 +573,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 4.  Should load interface within 2 seconds of launch.
 5.  Audit logs of tutors and admins should be maintained for at least 1 year.
 
-*{More to be added}*
+
 
 ### Glossary
 
